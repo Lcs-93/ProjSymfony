@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des Véhicules{% endblock %}
+
+{% block body %}
+<div class="container my-5">
+    <h2 class="text-center mb-4">Liste des Véhicules</h2>
+    
+    <!-- Formulaire de recherche -->
+    <div class="mb-4">
+        {{ form_start(form) }}
+            <div class="row">
+                <div class="col-md-4">
+                    {{ form_row(form.marque, {'label': 'Marque'}) }}
+                </div>
+                <div class="col-md-4">
+                    {{ form_row(form.prixMax, {'label': 'Prix Max'}) }}
+                </div>
+                <div class="col-md-4">
+                    {{ form_row(form.disponible, {'label': 'Disponible'}) }}
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary mt-3">Rechercher</button>
+        {{ form_end(form) }}
+    </div>
+
+    <!-- Liste des véhicules -->
+    <table class="table table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th>Marque</th>
+                <th>Modèle</th>
+                <th>Immatriculation</th>
+                <th>Prix Journalier</th>
+                <th>Disponible</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for vehicule in vehicules %}
+                <tr>
+                    <td>{{ vehicule.marque }}</td>
+                    <td>{{ vehicule.modele }}</td>
+                    <td>{{ vehicule.immatriculation }}</td>
+                    <td>{{ vehicule.prixJournalier }} €</td>
+                    <td>{{ vehicule.disponible ? 'Oui' : 'Non' }}</td>
+                    <td>
+                        <a href="{{ path('app_vehicule_show', {'id': vehicule.id}) }}" class="btn btn-info">Voir</a>
+                        <a href="{{ path('app_vehicule_edit', {'id': vehicule.id}) }}" class="btn btn-warning">Modifier</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="6" class="text-center">Aucun véhicule trouvé</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Bouton pour ajouter un véhicule -->
+    <a href="{{ path('app_vehicule_new') }}" class="btn btn-success">Ajouter un véhicule</a>
+</div>
+{% endblock %}
