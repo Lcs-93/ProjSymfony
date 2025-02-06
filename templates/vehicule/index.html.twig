@@ -3,30 +3,29 @@
 {% block title %}Liste des Véhicules{% endblock %}
 
 {% block body %}
-<div class="container my-5">
-    <h2 class="text-center mb-4">Liste des Véhicules</h2>
-    
-    <!-- Formulaire de recherche -->
-    <div class="mb-4">
-        {{ form_start(form) }}
-            <div class="row">
-                <div class="col-md-4">
-                    {{ form_row(form.marque, {'label': 'Marque'}) }}
-                </div>
-                <div class="col-md-4">
-                    {{ form_row(form.prixMax, {'label': 'Prix Max'}) }}
-                </div>
-                <div class="col-md-4">
-                    {{ form_row(form.disponible, {'label': 'Disponible'}) }}
-                </div>
-            </div>
-            <button type="submit" class="btn btn-primary mt-3">Rechercher</button>
-        {{ form_end(form) }}
-    </div>
+    <h1>Liste des Véhicules</h1>
 
-    <!-- Liste des véhicules -->
-    <table class="table table-bordered">
-        <thead class="thead-dark">
+    {# Formulaire de recherche #}
+    {{ form_start(form, {'attr': {'class': 'mb-4'}}) }}
+        <div class="row">
+            <div class="col-md-4">
+                {{ form_row(form.marque, {'attr': {'class': 'form-control'}}) }}
+            </div>
+            <div class="col-md-3">
+                {{ form_row(form.prixMax, {'attr': {'class': 'form-control'}}) }}
+            </div>
+            <div class="col-md-3">
+                {{ form_row(form.disponible, {'attr': {'class': 'form-check-input'}}) }}
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary">Rechercher</button>
+            </div>
+        </div>
+    {{ form_end(form) }}
+
+    {# Tableau des véhicules #}
+    <table class="table table-striped">
+        <thead>
             <tr>
                 <th>Marque</th>
                 <th>Modèle</th>
@@ -45,19 +44,17 @@
                     <td>{{ vehicule.prixJournalier }} €</td>
                     <td>{{ vehicule.disponible ? 'Oui' : 'Non' }}</td>
                     <td>
-                        <a href="{{ path('app_vehicule_show', {'id': vehicule.id}) }}" class="btn btn-info">Voir</a>
-                        <a href="{{ path('app_vehicule_edit', {'id': vehicule.id}) }}" class="btn btn-warning">Modifier</a>
+                        <a href="{{ path('app_vehicule_show', {'id': vehicule.id}) }}" class="btn btn-info btn-sm">Voir</a>
+                        <a href="{{ path('app_vehicule_edit', {'id': vehicule.id}) }}" class="btn btn-warning btn-sm">Modifier</a>
                     </td>
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="6" class="text-center">Aucun véhicule trouvé</td>
+                    <td colspan="6">Aucun véhicule trouvé</td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
 
-    <!-- Bouton pour ajouter un véhicule -->
     <a href="{{ path('app_vehicule_new') }}" class="btn btn-success">Ajouter un véhicule</a>
-</div>
 {% endblock %}
